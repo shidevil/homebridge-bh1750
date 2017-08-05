@@ -1,4 +1,4 @@
-# homebridge-hc-sr501
+# homebridge-bh1750
 Homebridge plugin for the bh1750 light sensor on a Raspberry Pi
 
 ## Installation of other plugins
