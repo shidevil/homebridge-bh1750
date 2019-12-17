@@ -17,6 +17,6 @@
         "homebridge": ">=0.2.0"
     },
     "dependencies" : {
-        "bh1750" : "0.0.3"
+        "bh1750": "shidevil/bh1750"
     }
 }

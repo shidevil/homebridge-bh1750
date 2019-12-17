@@ -1,6 +1,8 @@
 # homebridge-bh1750
 Homebridge plugin for the bh1750 light sensor on a Raspberry Pi
 
+Supported on Node 12 using i2c-bus library
+
 ## Installation of other plugins
 
 I assume that this [Guide](https://github.com/nfarina/homebridge/wiki/Running-HomeBridge-on-a-Raspberry-Pi) was followed, so your homebridge config file is under /var/homebridge and you used the systemd version. Create a folder called other_plugins in that hombridge folder and checkout this repository inside that newly created folder.

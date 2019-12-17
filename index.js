@@ -21,8 +21,8 @@ function BH1750(log, config) {
         
     this.informationService
     .setCharacteristic(Characteristic.Manufacturer, "ROHM SEMICONDUCTOR")
-    .setCharacteristic(Characteristic.Model, config.model || "BH1750")
-    .setCharacteristic(Characteristic.SerialNumber, config.serial || "A7CE1720-540E-4CCF-800D-9049B941812F");
+    .setCharacteristic(Characteristic.Model, config.model || "BH1750")
+    .setCharacteristic(Characteristic.SerialNumber, config.serial || "A7CE1720-540E-4CCF-800D-9049B941812F");
 
 
 
@@ -38,18 +38,30 @@ function BH1750(log, config) {
     if (config.autoRefresh && config.autoRefresh > 0) {
         var that = this;
         setInterval(function() {
-            that.lightSensor.readLight(function(value) {
-                that.service_lux.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
-                    .setValue(parseFloat(value.toFixed(2)));
+            that.lightSensor.readLight(function(err, value) {
+                if (err) {
+                    that.log("light error: " + err);
+                    throw err;
+                } else {
+                    that.service_lux.getCharacteristic(Characteristic.CurrentAmbientLightLevel).setValue(value);
+                    that.log("Refresh light value: ", value, "lx")
+                }
             });
         }, config.autoRefresh * 1000);
     }
 }
 
-BH1750.prototype.getLux = function(callback) {
-    this.lightSensor.readLight(function(value) {
-        callback(null, parseFloat(value.toFixed(2)));
-    });
+BH1750.prototype.getLux = function(cb) {
+    var that = this;
+    that.lightSensor.readLight(function(err, value){
+    if (err) {
+        that.log("light error: " + err);
+        throw err;
+    } else {
+        that.log("light value is:", value, "lx");
+        cb(null,value)
+    }
+});
 };
 
 BH1750.prototype.getServices = function() {
